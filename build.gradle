@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.31'
+
+    id 'idea'
+    id 'com.palantir.git-version' version '0.12.0-rc2'
+}
+
+group 'io.muratovv'
+
+sourceCompatibility = 1.8
+version = gitVersion()
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // ----------------------------------------| main dependencies |----------------------------------------------------
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    // logging
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.8.0-beta4'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+
+    // ----------------------------------------| test dependencies |----------------------------------------------------
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'io.mockk', name: 'mockk', version: '+'
+    testImplementation group: 'io.kotlintest', name: 'kotlintest-runner-junit5', version: '3.3.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}

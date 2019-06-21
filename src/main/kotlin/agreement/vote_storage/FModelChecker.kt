@@ -1,6 +1,16 @@
 package agreement.vote_storage
 
+
+/**
+ * Class represents K*F+1 consistency model,
+ * where F - number of faulty peers,
+ * K - model parameter
+ *
+ * @param toleranceModel - K-parameter
+ * @param supermajorityThreshold - multiplier of peers number which required for commit
+ */
 class FModelChecker(private val toleranceModel: Int, private val supermajorityThreshold: Int) : MajorityChecker {
+
     override fun hasCommit(frequent: Int, all: Int) = if (all == 0) false else
         frequent >= Math.ceil(fetchTolerancePart(all) * supermajorityThreshold).toInt()
 

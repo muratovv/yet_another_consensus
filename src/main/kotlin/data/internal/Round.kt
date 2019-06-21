@@ -1,5 +1,8 @@
 package data.internal
 
+/**
+ * Phase of the agreement round
+ */
 enum class Phase {
     FIRST,
     SECOND,

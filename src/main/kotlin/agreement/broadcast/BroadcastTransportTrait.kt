@@ -1,14 +1,14 @@
 package agreement.broadcast
 
-import agreement.vote_storage.Nothing
-import agreement.vote_storage.SuperMajorityVotes
 import agreement.vote_storage.VoteStorage
+import agreement.vote_storage.VoteStorageInsertionOutcome
 import common.P2pTransport
 import data.internal.Peer
 import data.internal.Vote
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
+// TODO 2019-06-22, @muratovv: add logs
 class BroadcastTransportTrait(private val transport: P2pTransport<Peer, Vote>, private val storage: VoteStorage) :
     Broadcast {
     init {
@@ -16,7 +16,7 @@ class BroadcastTransportTrait(private val transport: P2pTransport<Peer, Vote>, p
             .subscribe {
                 val insertionOutcome = storage.insert(it.second)
                 when (insertionOutcome) {
-                    is SuperMajorityVotes -> {
+                    is VoteStorageInsertionOutcome.SuperMajorityVotes -> {
                         TODO("Impelement")
                     }
                     is Nothing -> {
@@ -25,7 +25,7 @@ class BroadcastTransportTrait(private val transport: P2pTransport<Peer, Vote>, p
             }
     }
 
-    private val stateSubject: BehaviorSubject<SuperMajorityVotes> = BehaviorSubject.create()
+    private val stateSubject: BehaviorSubject<VoteStorageInsertionOutcome.SuperMajorityVotes> = BehaviorSubject.create()
 
     override fun initialize(input: BroadcastIncome) {
         input.second.subscribe {
@@ -33,7 +33,7 @@ class BroadcastTransportTrait(private val transport: P2pTransport<Peer, Vote>, p
         }
     }
 
-    override fun outcome(): Observable<SuperMajorityVotes> {
+    override fun outcome(): Observable<VoteStorageInsertionOutcome.SuperMajorityVotes> {
         return stateSubject
     }
 }

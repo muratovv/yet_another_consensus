@@ -4,10 +4,13 @@ import data.internal.Vote
 import data.internal.crypto.Hash
 import mu.KLogging
 
-class OutcomeFetcher(private val majorityChecker: MajorityChecker) {
+/**
+ * Class provides conversion from [SuperMajorityVotes] to phase outcomes [FirstPhaseOutcome] and [SecondPhaseOutcome]
+ */
+class OutcomeConverter(private val majorityChecker: MajorityChecker) {
     companion object : KLogging()
 
-    fun fetchFirstPhase(superMajority: SuperMajorityVotes): FirstPhaseOutcome {
+    fun convertFirstPhase(superMajority: VoteStorageInsertionOutcome.SuperMajorityVotes): FirstPhaseOutcome {
         val sortedVotes = sortSuperMajority(superMajority)
         val frequent = sortedVotes[0].first
         val all = superMajority.peers.size
@@ -23,8 +26,8 @@ class OutcomeFetcher(private val majorityChecker: MajorityChecker) {
         return FirstPhaseOutcome.Undecided(superMajority, sortedVotes[0].second)
     }
 
-    fun fetchSecondPhase(superMajority: SuperMajorityVotes): SecondPhaseOutcome {
-        return when (val fetched = fetchFirstPhase(superMajority)) {
+    fun convertSecondPhase(superMajority: VoteStorageInsertionOutcome.SuperMajorityVotes): SecondPhaseOutcome {
+        return when (val fetched = convertFirstPhase(superMajority)) {
             is FirstPhaseOutcome.Commit -> {
                 SecondPhaseOutcome.Commit(fetched.superMajority, fetched.hash)
             }
@@ -38,7 +41,7 @@ class OutcomeFetcher(private val majorityChecker: MajorityChecker) {
         }
     }
 
-    private fun sortSuperMajority(superMajority: SuperMajorityVotes): List<Pair<Int, Hash>> {
+    private fun sortSuperMajority(superMajority: VoteStorageInsertionOutcome.SuperMajorityVotes): List<Pair<Int, Hash>> {
         return superMajority.votes
             .groupBy { vote: Vote -> vote.hash }
             .map { entry: Map.Entry<Hash, List<Vote>> -> Pair(entry.value.size, entry.key) }

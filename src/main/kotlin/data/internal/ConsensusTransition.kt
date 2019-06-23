@@ -3,7 +3,7 @@ package data.internal
 /**
  * States of agreement phase of the consensus
  */
-sealed class ConsensusState {
+sealed class ConsensusTransition {
     /**
      * Same value which voted is committed
      */
@@ -25,7 +25,7 @@ sealed class ConsensusState {
     class CommitEmpty
 
     /**
-     * Finalized value of future round corresponding to voted
+     * Finalized value of future agreementRound corresponding to voted
      */
     class RequireSynchronization
 }

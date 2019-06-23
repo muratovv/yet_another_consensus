@@ -1,8 +1,7 @@
 package data.internal
 
-class Peer
+import data.internal.crypto.PublicKey
 
-typealias PeerList = List<Peer>
-typealias PeersSet = Set<Peer>
+data class Peer(val key: PublicKey)
 
-// TODO 2019-06-22, @muratovv: add common functions
+typealias PeerCollection = Collection<Peer>

@@ -11,8 +11,8 @@ interface TransportSender<Identity, Data> {
 
 typealias Received<Identity, Data> = Pair<Identity, Data>
 
-interface TransportReceiver<Identity, Data> {
+interface NetworkObserver<Identity, Data> {
     fun receivedStream(): Observable<Received<Identity, Data>>
 }
 
-interface P2pTransport<Identity, Data> : TransportSender<Identity, Data>, TransportReceiver<Identity, Data>
+interface P2pTransport<Identity, Data> : TransportSender<Identity, Data>, NetworkObserver<Identity, Data>

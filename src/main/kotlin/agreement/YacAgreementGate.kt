@@ -1,11 +1,11 @@
 package agreement
 
-import common.Voter
+import common.Streaming
 import data.Proposal
-import data.internal.ConsensusState
+import data.internal.ConsensusTransition
 
 interface YacOutcome
-typealias YacAgreementInput = Pair<Proposal, ConsensusState>
-typealias YacAgreementOutcome = Pair<YacOutcome, ConsensusState>
+typealias YacAgreementInput = Pair<Proposal, ConsensusTransition>
+typealias YacAgreementOutcome = Pair<YacOutcome, ConsensusTransition>
 
-interface YacAgreementGate : Voter<YacAgreementInput, YacAgreementOutcome>
+interface YacAgreementGate : Streaming<YacAgreementInput, YacAgreementOutcome>

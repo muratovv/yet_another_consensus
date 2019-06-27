@@ -1,4 +1,4 @@
-package agreement
+package main.pipeline
 
 import common.Streaming
 import data.Proposal

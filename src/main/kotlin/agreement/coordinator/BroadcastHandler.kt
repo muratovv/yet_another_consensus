@@ -1,6 +1,6 @@
 package agreement.coordinator
 
-import agreement.broadcast.BroadcastFactory
+import agreement.broadcast.Broadcast
 import data.internal.Peer
 import data.internal.Vote
 
@@ -8,8 +8,8 @@ import data.internal.Vote
  * Helper class for [YacPhaseCoordinator] which responsible for managing broadcasts
  */
 class BroadcastHandler(
-    val phaseBroadcastFactory: BroadcastFactory<Peer, Vote>,
-    val commitBroadcastFactory: BroadcastFactory<Peer, Collection<Vote>>
+    val phaseBroadcastFactory: Broadcast.BroadcastFactory<Peer, Vote>,
+    val commitBroadcastFactory: Broadcast.BroadcastFactory<Peer, Collection<Vote>>
 ) {
     var phaseBroadcast: PhaseBroadcastType? = null
         set(value) {

@@ -28,7 +28,7 @@ class YacPhaseCoordinator(
     private val outcomeConverter: OutcomeConverterInterface
 ) : PhaseCoordinator {
 
-    private val agreementOutcomes: BehaviorSubject<AgreementOutcome> = BehaviorSubject.create()
+    private val certificatedYacOutcomes: BehaviorSubject<CertificatedYacOutcome> = BehaviorSubject.create()
 
     init {
         majoritiesEmitter.outcome().subscribe {
@@ -41,11 +41,11 @@ class YacPhaseCoordinator(
                     when (val firstPhase = outcomeConverter.convertFirstPhase(it.first)) {
                         is FirstPhaseOutcome.CommitOutcome -> {
                             // return commit
-                            agreementOutcomes.onNext(AgreementOutcome.Commit(firstPhase.commitCertificate))
+                            certificatedYacOutcomes.onNext(CertificatedYacOutcome.Commit(firstPhase.commitCertificate))
                         }
                         is FirstPhaseOutcome.RejectOutcome -> {
                             // return reject
-                            agreementOutcomes.onNext(AgreementOutcome.Reject(firstPhase.rejectCertificate))
+                            certificatedYacOutcomes.onNext(CertificatedYacOutcome.Reject(firstPhase.rejectCertificate))
                         }
                         is FirstPhaseOutcome.UndecidedOutcome -> {
                             // initiate second phase
@@ -57,11 +57,11 @@ class YacPhaseCoordinator(
                     when (val secondPhase = outcomeConverter.convertSecondPhase(it.first)) {
                         is SecondPhaseOutcome.CommitOutcome -> {
                             // return commit
-                            agreementOutcomes.onNext(AgreementOutcome.Commit(secondPhase.commitCertificate))
+                            certificatedYacOutcomes.onNext(CertificatedYacOutcome.Commit(secondPhase.commitCertificate))
                         }
                         is SecondPhaseOutcome.RejectOutcome -> {
                             // return reject
-                            agreementOutcomes.onNext(AgreementOutcome.Reject(secondPhase.rejectSertificate))
+                            certificatedYacOutcomes.onNext(CertificatedYacOutcome.Reject(secondPhase.rejectSertificate))
                         }
                     }
                 }
@@ -75,7 +75,7 @@ class YacPhaseCoordinator(
         initiateFirstPhase(input.hash, input.consensusRound.makeAgreementRound(), input.peersCollection)
     }
 
-    override fun outcome(): Observable<AgreementOutcome> = agreementOutcomes
+    override fun outcome(): Observable<CertificatedYacOutcome> = certificatedYacOutcomes
 
     // ------------------------------| Private methods |----------------------------------------------------------------
 

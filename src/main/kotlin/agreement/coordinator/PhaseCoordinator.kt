@@ -19,12 +19,12 @@ data class CoordinatorRoundInput(
 /**
  * Round outcome
  */
-sealed class AgreementOutcome {
-    class Commit(val commitCertificate: CommitCertificate) : AgreementOutcome()
-    class Reject(val rejectCertificate: RejectCertificate) : AgreementOutcome()
+sealed class CertificatedYacOutcome {
+    class Commit(val commitCertificate: CommitCertificate) : CertificatedYacOutcome()
+    class Reject(val rejectCertificate: RejectCertificate) : CertificatedYacOutcome()
 }
 
 /**
  * Interface of the phase coordinator which responsible for propagation data among peers in the network
  */
-interface PhaseCoordinator : Streaming<CoordinatorRoundInput, AgreementOutcome>
+interface PhaseCoordinator : Streaming<CoordinatorRoundInput, CertificatedYacOutcome>

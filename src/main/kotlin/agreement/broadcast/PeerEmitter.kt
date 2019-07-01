@@ -18,4 +18,8 @@ interface PeerEmitter {
      * @param peers - initial collection
      */
     fun immediateObservable(peers: Collection<Peer>): Observable<Peer>
+
+    interface PeerEmitterFactory {
+        fun create(): PeerEmitter
+    }
 }

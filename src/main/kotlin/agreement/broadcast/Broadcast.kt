@@ -20,8 +20,8 @@ interface Broadcast<Identity, Data> {
      * Note: method should be thread-safe
      */
     fun decline(): Broadcast<Identity, Data>
-}
 
-interface BroadcastFactory<Identity, Data> {
-    fun create(): Broadcast<Identity, Data>
+    interface BroadcastFactory<Identity, Data> {
+        fun create(): Broadcast<Identity, Data>
+    }
 }
